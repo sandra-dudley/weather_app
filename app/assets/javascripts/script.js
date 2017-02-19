@@ -1,6 +1,12 @@
-var weatherApiKey = config.weatherApiKey;
-function gettingWeather(){
-$.getJSON("//crossorigin.me/http://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid="+weatherApiKey,function(json){
-    document.write(JSON.stringify(json));
-});
+var weatherOutput = document.getElementById("weather_output");
+function gettingWeather(e){
+    console.log (e.target.dataset.location);
+    var weatherLocation = e.target.dataset.location;
+    // https://developer.yahoo.com/weather/
+    $.getJSON("https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"+weatherLocation+"%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",function(json){
+        weatherOutput.innerHTML = JSON.stringify(json);
+    });
 };
+
+var weatherButtons = document.querySelectorAll(".weatherButtons");
+weatherButtons.forEach(weatherButton => weatherButton.addEventListener('click', gettingWeather));
