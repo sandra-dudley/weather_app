@@ -1,8 +1,6 @@
 var cityOutput = document.getElementById("city_output");
 var weatherOutput = document.getElementById("weather_output");
-var second = document.querySelector('.second');
-var minute = document.querySelector('.minute');
-var hour = document.querySelector('.hour');
+
 var body = document.body;
 function gettingWeather(e){
     console.log (e.target.dataset.location);
@@ -16,14 +14,39 @@ function gettingWeather(e){
         body.className= weatherLocation+"-bg";
     });
 };
+const secondHand = document.querySelector('.second-hand');
+const minuteHand = document.querySelector('.min-hand');
+const hourHand = document.querySelector('.hour-hand');
+
 function setDate() {
-    var now = new Date();
-    var secondDate = ('0'+now.getSeconds()).slice(-2);
-    second.innerHTML = secondDate;
-    var minuteDate = ('0'+now.getMinutes()).slice(-2);
-    minute.innerHTML = minuteDate;
-    var hourDate = now.getHours();
-    hour.innerHTML = hourDate;
+    const now = new Date();
+    const secondDate = now.getSeconds();
+    const secondDegree = ((secondDate / 60) * 360) + 90; // because of transform: rotate(90deg); in the CSS
+    if (secondDegree < 100) { //  1sec = 6deg => 10 deg + 90deg
+        secondHand.style.transition = 'none';
+    } else {
+        secondHand.style.transition = 'all 0.05s';
+    }
+    secondHand.style.transform = `rotate(${secondDegree}deg)`;
+    
+
+    const minuteDate = now.getMinutes();
+    const minuteDegree = ((minuteDate / 60) * 360) + 90;
+    if (minuteDegree < 100) { //  1mn = 6deg => 10 deg + 90deg
+        minuteHand.style.transition = 'none';
+    } else {
+        minuteHand.style.transition = 'all 0.05s';
+    }
+    minuteHand.style.transform = `rotate(${minuteDegree}deg)`;
+    
+    const hourDate = now.getHours();
+    const hourDegree = ((hourDate / 12) * 360) + 90;
+    if (hourDegree < 130) { // 1hr = 30deg -> 40 deg + 90deg
+        hourHand.style.transition = 'none';
+    } else {
+        hourHand.style.transition = 'all 0.05s';
+    }
+    hourHand.style.transform = `rotate(${hourDegree}deg)`;
 }
 setInterval(setDate, 1000);
 
