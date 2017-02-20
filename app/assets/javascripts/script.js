@@ -1,5 +1,8 @@
 var cityOutput = document.getElementById("city_output");
 var weatherOutput = document.getElementById("weather_output");
+var second = document.querySelector('.second');
+var minute = document.querySelector('.minute');
+var hour = document.querySelector('.hour');
 var body = document.body;
 function gettingWeather(e){
     console.log (e.target.dataset.location);
@@ -13,6 +16,16 @@ function gettingWeather(e){
         body.className= weatherLocation+"-bg";
     });
 };
+function setDate() {
+    var now = new Date();
+    var secondDate = ('0'+now.getSeconds()).slice(-2);
+    second.innerHTML = secondDate;
+    var minuteDate = ('0'+now.getMinutes()).slice(-2);
+    minute.innerHTML = minuteDate;
+    var hourDate = now.getHours();
+    hour.innerHTML = hourDate;
+}
+setInterval(setDate, 1000);
 
 function locationName(name) {
     return name.split("-").map(function(subString){
