@@ -9,7 +9,7 @@ function gettingWeather(e){
         var temperatureFarenheit = json.query.results.channel.item.condition.temp;
         var weatherConditions = json.query.results.channel.item.condition.text;
         cityOutput.innerHTML = locationName(weatherLocation);
-        weatherOutput.innerHTML = temperatureCelsius(temperatureFarenheit)+"C <br/>"+weatherConditions;
+        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureCelsius(temperatureFarenheit)+"°C </span><br/>"+weatherConditions;
         body.className= weatherLocation+"-bg";
     });
 };
