@@ -1,4 +1,5 @@
 var weatherOutput = document.getElementById("weather_output");
+var body = document.body;
 function gettingWeather(e){
     console.log (e.target.dataset.location);
     var weatherLocation = e.target.dataset.location;
@@ -7,6 +8,7 @@ function gettingWeather(e){
         var temperatureFarenheit = json.query.results.channel.item.condition.temp;
         var weatherConditions = json.query.results.channel.item.condition.text;
         weatherOutput.innerHTML = "Temperature in "+locationName(weatherLocation)+": "+temperatureCelsius(temperatureFarenheit)+"C "+weatherConditions;
+        body.className= weatherLocation+"-bg";
     });
 };
 

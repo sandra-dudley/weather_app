@@ -37,3 +37,18 @@ body {
   height: 60px;
   background-color: #f5f5f5;
 }
+
+body {
+    background: #cccccc;
+    background-size: cover;
+}
+
+.london-bg {
+    background-image: image-url('london-bg.jpg');
+}
+.new-york-bg {
+    background-image: image-url('new-york-bg.jpg');
+}
+.tokyo-bg {
+    background-image: image-url('tokyo-bg.jpg');
+}
