@@ -37,6 +37,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 
 # Use moment.js for time control
 gem 'momentjs-rails', '~> 2.11'
+gem 'moment_timezone-rails', '~> 0.5.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
