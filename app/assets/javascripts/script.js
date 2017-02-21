@@ -7,11 +7,16 @@ var temperatureCel;
 var temperatureUnit = "C";
 var weatherConditions;
 var timeZone = "Europe/London";
-
+gettingWeather();
 /* weather */
 function gettingWeather(e){
-    weatherLocation = e.target.dataset.location;
-    timeZone = e.target.dataset.timezone;
+    if (e === undefined) {
+        weatherLocation =  'london';
+        timeZone = "Europe/London";
+    } else {
+        weatherLocation = e.target.dataset.location;
+        timeZone = e.target.dataset.timezone;
+    }
     // https://developer.yahoo.com/weather/
     $.getJSON("https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"+weatherLocation+"%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",function(json){
         temperatureFar = json.query.results.channel.item.condition.temp;

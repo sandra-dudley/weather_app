@@ -67,12 +67,11 @@ body {
     .clock {
         width: 15rem;
         height: 15rem;
-        border: 5px solid white;
+        border: 1px solid white;
         border-radius: 50%;
         margin: 5px auto;
         position: relative;
         padding: 2rem;
-        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1), inset 0 0 0 3px #EFEFEF, inset 0 0 10px black, 0 0 10px rgba(0, 0, 0, 0.2);
     }
             
     .clock-face {
@@ -85,7 +84,7 @@ body {
     
     .hand {
         width: 50%;
-        height: 6px;
+        height: 3px;
         background: white;
         position: absolute;
         top: 50%;
@@ -97,9 +96,12 @@ body {
     .hour-hand {
         width:30%;
         left: 20%;
+        background: #dddddd;
     }
     .second-hand {
-        height: 3px;
+        height: 1px;
+        width: 45%;
+        left: 5%;
     }
 }
 
