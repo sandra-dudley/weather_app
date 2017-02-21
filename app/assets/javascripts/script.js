@@ -8,6 +8,7 @@ var temperatureUnit = "C";
 var weatherConditions;
 var timeZone = "Europe/London";
 
+/* weather */
 function gettingWeather(e){
     weatherLocation = e.target.dataset.location;
     timeZone = e.target.dataset.timezone;
@@ -21,6 +22,26 @@ function gettingWeather(e){
         body.className= weatherLocation+"-bg";
     });
 };
+function locationName(name) {
+    return name.split("-").map(function(subString){
+        return subString[0].toUpperCase()+subString.substring(1);
+    }).join(" ");
+}
+
+function temperatureCelsius (temp) {
+    return Math.round((temp-32)*(5/9)); 
+}
+function toggleUnit (e) {
+    if (temperatureUnit === "C") {
+        temperatureUnit = "F";
+        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureFar+"°"+temperatureUnit+" </span><br/>"+weatherConditions;
+    } else {
+        temperatureUnit = "C";
+        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureCel+"°"+temperatureUnit+" </span><br/>"+weatherConditions;
+    }
+}
+
+/* time */
 const secondHand = document.querySelector('.second-hand');
 const minuteHand = document.querySelector('.min-hand');
 const hourHand = document.querySelector('.hour-hand');
@@ -58,25 +79,8 @@ function setDate() {
 }
 setInterval(setDate, 1000);
 
-function locationName(name) {
-    return name.split("-").map(function(subString){
-        return subString[0].toUpperCase()+subString.substring(1);
-    }).join(" ");
-}
 
-function temperatureCelsius (temp) {
-    return Math.round((temp-32)*(5/9)); 
-}
-function toggleUnit (e) {
-    if (temperatureUnit === "C") {
-        temperatureUnit = "F";
-        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureFar+"°"+temperatureUnit+" </span><br/>"+weatherConditions;
-    } else {
-        temperatureUnit = "C";
-        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureCel+"°"+temperatureUnit+" </span><br/>"+weatherConditions;
-    }
-}
 var weatherButtons = document.querySelectorAll(".weatherButtons");
 weatherButtons.forEach(weatherButton => weatherButton.addEventListener('click', gettingWeather));
 var toggleButton = document.querySelector(".toggleButton");
-toggleButton.addEventListener('click', toggleUnit)
+toggleButton.addEventListener('click', toggleUnit);
