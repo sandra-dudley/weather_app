@@ -1,6 +1,6 @@
 var body = document.body;
-var cityOutput = document.getElementById("city_output");
-var weatherOutput = document.getElementById("weather_output");
+var cityOutput = document.getElementById("city-output");
+var weatherOutput = document.getElementById("weather-output");
 var weatherLocation;
 var temperatureFar;
 var temperatureCel;
