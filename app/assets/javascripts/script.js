@@ -1,9 +1,11 @@
 var body = document.body;
 var cityOutput = document.getElementById("city_output");
 var weatherOutput = document.getElementById("weather_output");
-
-
 var weatherLocation;
+var temperatureFar;
+var temperatureCel;
+var temperatureUnit = "C";
+var weatherConditions;
 var timeZone = "Europe/London";
 
 function gettingWeather(e){
@@ -11,10 +13,11 @@ function gettingWeather(e){
     timeZone = e.target.dataset.timezone;
     // https://developer.yahoo.com/weather/
     $.getJSON("https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"+weatherLocation+"%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",function(json){
-        var temperatureFarenheit = json.query.results.channel.item.condition.temp;
-        var weatherConditions = json.query.results.channel.item.condition.text;
+        temperatureFar = json.query.results.channel.item.condition.temp;
+        temperatureCel = temperatureCelsius(temperatureFar);
+        weatherConditions = json.query.results.channel.item.condition.text;
         cityOutput.innerHTML = locationName(weatherLocation);
-        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureCelsius(temperatureFarenheit)+"°C </span><br/>"+weatherConditions;
+        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureCelsius(temperatureFar)+"°"+temperatureUnit+" </span><br/>"+weatherConditions;
         body.className= weatherLocation+"-bg";
     });
 };
@@ -64,5 +67,16 @@ function locationName(name) {
 function temperatureCelsius (temp) {
     return Math.round((temp-32)*(5/9)); 
 }
+function toggleUnit (e) {
+    if (temperatureUnit === "C") {
+        temperatureUnit = "F";
+        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureFar+"°"+temperatureUnit+" </span><br/>"+weatherConditions;
+    } else {
+        temperatureUnit = "C";
+        weatherOutput.innerHTML = "<span class='temperature'>"+temperatureCel+"°"+temperatureUnit+" </span><br/>"+weatherConditions;
+    }
+}
 var weatherButtons = document.querySelectorAll(".weatherButtons");
 weatherButtons.forEach(weatherButton => weatherButton.addEventListener('click', gettingWeather));
+var toggleButton = document.querySelector(".toggleButton");
+toggleButton.addEventListener('click', toggleUnit)
