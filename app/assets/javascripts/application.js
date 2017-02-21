@@ -14,6 +14,9 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require moment
+// moment-timezone all timezone data
+//= require moment-timezone-with-data
+
 //= require turbolinks
 //= require_tree .
 // This is a manifest file that'll be compiled into application.js, which will include all the files

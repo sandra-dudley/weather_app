@@ -1,10 +1,14 @@
+var body = document.body;
 var cityOutput = document.getElementById("city_output");
 var weatherOutput = document.getElementById("weather_output");
 
-var body = document.body;
+
+var weatherLocation;
+var timeZone = "Europe/London";
+
 function gettingWeather(e){
-    console.log (e.target.dataset.location);
-    var weatherLocation = e.target.dataset.location;
+    weatherLocation = e.target.dataset.location;
+    timeZone = e.target.dataset.timezone;
     // https://developer.yahoo.com/weather/
     $.getJSON("https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"+weatherLocation+"%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",function(json){
         var temperatureFarenheit = json.query.results.channel.item.condition.temp;
@@ -19,7 +23,8 @@ const minuteHand = document.querySelector('.min-hand');
 const hourHand = document.querySelector('.hour-hand');
 
 function setDate() {
-    const now = moment();
+
+    const now = moment().tz(timeZone);
     const secondDate = now.seconds();
     const secondDegree = ((secondDate / 60) * 360) + 90; // because of transform: rotate(90deg); in the CSS
     if (secondDegree < 100) { //  1sec = 6deg => 10 deg + 90deg
