@@ -19,8 +19,8 @@ const minuteHand = document.querySelector('.min-hand');
 const hourHand = document.querySelector('.hour-hand');
 
 function setDate() {
-    const now = new Date();
-    const secondDate = now.getSeconds();
+    const now = moment();
+    const secondDate = now.seconds();
     const secondDegree = ((secondDate / 60) * 360) + 90; // because of transform: rotate(90deg); in the CSS
     if (secondDegree < 100) { //  1sec = 6deg => 10 deg + 90deg
         secondHand.style.transition = 'none';
@@ -30,7 +30,7 @@ function setDate() {
     secondHand.style.transform = `rotate(${secondDegree}deg)`;
     
 
-    const minuteDate = now.getMinutes();
+    const minuteDate = now.minutes();
     const minuteDegree = ((minuteDate / 60) * 360) + 90;
     if (minuteDegree < 100) { //  1mn = 6deg => 10 deg + 90deg
         minuteHand.style.transition = 'none';
@@ -39,7 +39,7 @@ function setDate() {
     }
     minuteHand.style.transform = `rotate(${minuteDegree}deg)`;
     
-    const hourDate = now.getHours();
+    const hourDate = now.hours();
     const hourDegree = ((hourDate / 12) * 360) + 90;
     if (hourDegree < 130) { // 1hr = 30deg -> 40 deg + 90deg
         hourHand.style.transition = 'none';
