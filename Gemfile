@@ -35,6 +35,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
 
+# Use moment.js for time control
+gem 'momentjs-rails', '~> 2.11'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
