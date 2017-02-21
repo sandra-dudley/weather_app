@@ -61,7 +61,7 @@ function setDate() {
     } else {
         secondHand.style.transition = 'all 0.05s';
     }
-    secondHand.style.transform = `rotate(${secondDegree}deg)`;
+    secondHand.style.transform = 'rotate('+secondDegree+'deg)';
     
 
     const minuteDate = now.minutes();
@@ -71,7 +71,7 @@ function setDate() {
     } else {
         minuteHand.style.transition = 'all 0.05s';
     }
-    minuteHand.style.transform = `rotate(${minuteDegree}deg)`;
+    minuteHand.style.transform = 'rotate('+minuteDegree+'deg)';
     
     const hourDate = now.hours();
     const hourDegree = ((hourDate / 12) * 360) + 90;
@@ -80,7 +80,7 @@ function setDate() {
     } else {
         hourHand.style.transition = 'all 0.05s';
     }
-    hourHand.style.transform = `rotate(${hourDegree}deg)`;
+    hourHand.style.transform = 'rotate('+hourDegree+'deg)';
 }
 setInterval(setDate, 1000);
 
