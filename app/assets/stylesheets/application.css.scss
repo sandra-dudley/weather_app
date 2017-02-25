@@ -37,13 +37,13 @@ body {
 }
 
 .london-bg {
-    background-image: image-url('london-bg.jpg');
+    background-image: image-url('london-bg.jpg') !important;
 }
 .new-york-bg {
-    background-image: image-url('new-york-bg.jpg');
+    background-image: image-url('new-york-bg.jpg') !important;
 }
 .tokyo-bg {
-    background-image: image-url('tokyo-bg.jpg');
+    background-image: image-url('tokyo-bg.jpg') !important;
 }
 
 .app-output {

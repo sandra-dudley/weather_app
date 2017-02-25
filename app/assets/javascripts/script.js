@@ -29,7 +29,13 @@ function init() {
                currentLocation.innerHTML = json.query.results.channel.location.city;
                currentLocation.dataset.location = json.query.results.channel.location.city;
                currentLocation.dataset.timeZone = moment.tz.guess();
+               var currentImageQuery = "https://pixabay.com/api/?key="+config.pixaBayApiKey+"&q="+json.query.results.channel.location.country+"&image_type=photo&category=places&safesearch=true";
+               $.getJSON(currentImageQuery,function(json){
+                   var randomNumber = Math.floor((Math.random() * 10));
+                   body.style.backgroundImage = "url('"+json.hits[randomNumber].webformatURL+"')";
+               });
            });
+           
         });
       };
       //https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22(40.7141667%2C-74.0063889)%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=
