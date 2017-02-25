@@ -32,7 +32,9 @@ function init() {
                var currentImageQuery = "https://pixabay.com/api/?key="+config.pixaBayApiKey+"&q="+json.query.results.channel.location.country+"&image_type=photo&category=places&safesearch=true";
                $.getJSON(currentImageQuery,function(json){
                    var randomNumber = Math.floor((Math.random() * 10));
-                   body.style.backgroundImage = "url('"+json.hits[randomNumber].webformatURL+"')";
+                   var photo = json.hits[randomNumber].webformatURL;
+                   photo = photo.replace('640', '960');
+                   body.style.backgroundImage = "url('"+photo+"')";
                });
            });
            
