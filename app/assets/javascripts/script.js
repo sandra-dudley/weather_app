@@ -9,7 +9,8 @@ var temperatureCel;
 var temperatureUnit = "C";
 var weatherConditions;
 var timeZone;
-
+var latitude;
+var longitude;
 /* time */
 var secondHand = document.querySelector('.second-hand');
 var minuteHand = document.querySelector('.min-hand');
@@ -17,6 +18,21 @@ var hourHand = document.querySelector('.hour-hand');
 var now;
 
 function init() {
+    //select * from weather.forecast where woeid in (SELECT woeid FROM geo.places WHERE text="(lat,long)")
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+           latitude = position.coords.latitude ;
+           longitude = position.coords.longitude;
+           var query = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22("+latitude+"%2C"+longitude+")%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+           $.getJSON(query,function(json){
+               var currentLocation = document.querySelector('#currentButton');
+               currentLocation.innerHTML = json.query.results.channel.location.city;
+               currentLocation.dataset.location = json.query.results.channel.location.city;
+               currentLocation.dataset.timeZone = moment.tz.guess();
+           });
+        });
+      };
+      //https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22(40.7141667%2C-74.0063889)%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=
     gettingWeather();
 }
 
@@ -31,7 +47,7 @@ function gettingWeather(){
         timeZone = e.target.dataset.timezone;
     }
     // https://developer.yahoo.com/weather/
-    $.getJSON("https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"+weatherLocation+"%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",function(json){
+    $.getJSON("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"+weatherLocation+"%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",function(json){
         /* location */
         cityOutput.innerHTML = locationName(weatherLocation);
         body.className= weatherLocation+"-bg";
@@ -78,7 +94,11 @@ function setHand(el, time, deg, trans) {
 }
 
 function setDate() {
+    if (timeZone) {
     now = moment().tz(timeZone);
+    } else {
+        now = moment().tz(moment.tz.guess());
+    }
     
     var secondDate = now.seconds();
     setHand(secondHand,secondDate, 60, 100);
