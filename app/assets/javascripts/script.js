@@ -22,7 +22,7 @@ function init() {
     //select * from weather.forecast where woeid in (SELECT woeid FROM geo.places WHERE text="(lat,long)")
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
-           latitude = position.coords.latitude ;
+           latitude = position.coords.latitude;
            longitude = position.coords.longitude;
            var query = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22("+latitude+"%2C"+longitude+")%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
            $.getJSON(query,function(json){
