@@ -3,6 +3,7 @@ var body = document.body;
 /* weather */
 var cityOutput = document.getElementById("city-output");
 var weatherOutput = document.getElementById("weather-output");
+var currentLocation = document.querySelector('#currentButton');
 var weatherLocation;
 var temperatureFar;
 var temperatureCel;
@@ -25,10 +26,11 @@ function init() {
            longitude = position.coords.longitude;
            var query = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22("+latitude+"%2C"+longitude+")%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
            $.getJSON(query,function(json){
-               var currentLocation = document.querySelector('#currentButton');
-               currentLocation.innerHTML = json.query.results.channel.location.city;
-               currentLocation.dataset.location = json.query.results.channel.location.city;
-               currentLocation.dataset.timeZone = moment.tz.guess();
+               var currentCity = json.query.results.channel.location.city;
+               var currentTimezone = moment.tz.guess();
+               currentLocation.innerHTML = "Current weather in "+currentCity;
+               currentLocation.dataset.location = currentCity;
+               currentLocation.dataset.timeZone = currentTimezone;
                var currentImageQuery = "https://pixabay.com/api/?key="+config.pixaBayApiKey+"&q="+json.query.results.channel.location.country+"&image_type=photo&category=places&safesearch=true";
                $.getJSON(currentImageQuery,function(json){
                    var randomNumber = Math.floor((Math.random() * 10));
@@ -36,12 +38,16 @@ function init() {
                    photo = photo.replace('640', '960');
                    body.style.backgroundImage = "url('"+photo+"')";
                });
+               gettingWeather(currentCity, currentTimezone);
            });
-           
+        }, function(err) {
+           console.log("error");
+           currentLocation.className = "hidden";
+           gettingWeather();
         });
-      };
+      }  
       //https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22(40.7141667%2C-74.0063889)%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=
-    gettingWeather();
+    
 }
 
 /* weather */
@@ -49,6 +55,9 @@ function gettingWeather(){
     if (!arguments[0]) {
         weatherLocation =  'london';
         timeZone = "Europe/London";
+    } else if (arguments.length === 2) {
+        weatherLocation = arguments[0];
+        timeZone = arguments[1];
     } else {
         var e = arguments[0];
         weatherLocation = e.target.dataset.location;
